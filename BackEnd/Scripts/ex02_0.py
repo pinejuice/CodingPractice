@@ -2,22 +2,22 @@ import random
 
 player_info = {
     1: 'User',
-    -1: 'CPU'
+    -1: 'NPC'
 }
 
 class Numeron():
     def __init__(self):
         self.game_digit = 3
-        self.set_cpu_candidate_list()
-        self.cpu_set_num = random.choice(self.numbers)
+        self.set_npc_candidate_list()
+        self.npc_set_num = random.choice(self.numbers)
         self.user_set_num = input(f'数字 {self.game_digit} 桁を重複なしで決めてください。')
         self.winner = ''
         self.now_player = 1
-        self.cpu_not_use_num = []
+        self.npc_not_use_num = []
         self.user_history = []
-        self.cpu_history = []
+        self.npc_history = []
     
-    def set_cpu_candidate_list(self):
+    def set_npc_candidate_list(self):
         self.numbers = []
         nums = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
         for i in range(0, 10):
@@ -46,7 +46,7 @@ class Numeron():
             if self.now_player == -1:
                 self.check_result(eat, bite, input_number)
                 self.history_check()
-                print(f'CPUは、{len(self.numbers)}パターンまで絞っています。')
+                print(f'NPCは、{len(self.numbers)}パターンまで絞っています。')
 
     def check_numbers(self, input_number):
         eat = 0
@@ -54,9 +54,9 @@ class Numeron():
         if self.now_player == 1:
             i = 0
             while i < self.game_digit:
-                if list(input_number)[i] == list(self.cpu_set_num)[i]:
+                if list(input_number)[i] == list(self.npc_set_num)[i]:
                     eat += 1
-                elif list(input_number)[i] in self.cpu_set_num:
+                elif list(input_number)[i] in self.npc_set_num:
                     bite += 1
                 i += 1
         elif self.now_player == -1:
@@ -70,7 +70,7 @@ class Numeron():
         return eat, bite
 
     def check_result(self, eat, bite, input_number):
-        # CPUの選択肢を絞っていく処理
+        # npcの選択肢を絞っていく処理
         nums = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
         # 使われていない数字が確定した場合
         if eat == 0 and bite == 0:
@@ -78,36 +78,36 @@ class Numeron():
             new_numbers = [n for n in self.numbers if input_number[0] not in n and input_number[1] not in n and input_number[2] not in n]
             self.numbers = new_numbers
             for i in list(input_number):
-                self.cpu_not_use_num.append(i)
+                self.npc_not_use_num.append(i)
 
         elif eat == 1 and bite == 0:
             new_numbers = []
             num_list = list(input_number)
             for i in range(0, len(nums)):
-                if nums[i] in num_list or nums[i] in self.cpu_not_use_num:
+                if nums[i] in num_list or nums[i] in self.npc_not_use_num:
                     continue
                 for j in range(0, len(nums)):
                     if i == j:
                         continue
-                    if nums[j] in num_list or nums[j] in self.cpu_not_use_num:
+                    if nums[j] in num_list or nums[j] in self.npc_not_use_num:
                         continue
                     new_numbers.append(num_list[0] + nums[i] + nums[j])
             for i in range(0, len(nums)):
-                if nums[i] in num_list or nums[i] in self.cpu_not_use_num:
+                if nums[i] in num_list or nums[i] in self.npc_not_use_num:
                     continue
                 for j in range(0, len(nums)):
                     if i == j:
                         continue
-                    if nums[j] in num_list or nums[j] in self.cpu_not_use_num:
+                    if nums[j] in num_list or nums[j] in self.npc_not_use_num:
                         continue
                     new_numbers.append(nums[i] + num_list[1] + nums[j])
             for i in range(0, len(nums)):
-                if nums[i] in num_list or nums[i] in self.cpu_not_use_num:
+                if nums[i] in num_list or nums[i] in self.npc_not_use_num:
                     continue
                 for j in range(0, len(nums)):
                     if i == j:
                         continue
-                    if nums[j] in num_list or nums[j] in self.cpu_not_use_num:
+                    if nums[j] in num_list or nums[j] in self.npc_not_use_num:
                         continue
                     new_numbers.append(nums[i] + nums[j] + num_list[2])
             if len(self.numbers) >= len(new_numbers):
@@ -117,15 +117,15 @@ class Numeron():
             new_numbers = []
             num_list = list(input_number)
             for i in range(0, len(nums)):
-                if nums[i] in num_list or nums[i] in self.cpu_not_use_num:
+                if nums[i] in num_list or nums[i] in self.npc_not_use_num:
                     continue
                 new_numbers.append(num_list[0] + num_list[1] + nums[i])
             for i in range(0, len(nums)):
-                if nums[i] in num_list or nums[i] in self.cpu_not_use_num:
+                if nums[i] in num_list or nums[i] in self.npc_not_use_num:
                     continue
                 new_numbers.append(num_list[0] + nums[i] + num_list[2])
             for i in range(0, len(nums)):
-                if nums[i] in num_list or nums[i] in self.cpu_not_use_num:
+                if nums[i] in num_list or nums[i] in self.npc_not_use_num:
                     continue
                 new_numbers.append(nums[i] + num_list[1] + num_list[2])
             if len(self.numbers) >= len(new_numbers):
@@ -135,32 +135,32 @@ class Numeron():
             new_numbers = []
             num_list = list(input_number)
             for i in range(0, len(nums)):
-                if nums[i] in num_list or nums[i] in self.cpu_not_use_num:
+                if nums[i] in num_list or nums[i] in self.npc_not_use_num:
                     continue
                 for j in range(0, len(nums)):
                     if i == j:
                         continue
-                    if nums[j] in num_list or nums[j] in self.cpu_not_use_num:
+                    if nums[j] in num_list or nums[j] in self.npc_not_use_num:
                         continue
                     new_numbers.append(nums[i] + num_list[0] + nums[j])
                     new_numbers.append(nums[i] + nums[j] + num_list[0])
             for i in range(0, len(nums)):
-                if nums[i] in num_list or nums[i] in self.cpu_not_use_num:
+                if nums[i] in num_list or nums[i] in self.npc_not_use_num:
                     continue
                 for j in range(0, len(nums)):
                     if i == j:
                         continue
-                    if nums[j] in num_list or nums[j] in self.cpu_not_use_num:
+                    if nums[j] in num_list or nums[j] in self.npc_not_use_num:
                         continue
                     new_numbers.append(num_list[1] + nums[i] + nums[j])
                     new_numbers.append(nums[i] + nums[j] + num_list[1])
             for i in range(0, len(nums)):
-                if nums[i] in num_list or nums[i] in self.cpu_not_use_num:
+                if nums[i] in num_list or nums[i] in self.npc_not_use_num:
                     continue
                 for j in range(0, len(nums)):
                     if i == j:
                         continue
-                    if nums[j] in num_list or nums[j] in self.cpu_not_use_num:
+                    if nums[j] in num_list or nums[j] in self.npc_not_use_num:
                         continue
                     new_numbers.append(num_list[2] + nums[i] + nums[j])
                     new_numbers.append(nums[i] + num_list[2] + nums[j])
@@ -171,19 +171,19 @@ class Numeron():
             new_numbers = []
             num_list = list(input_number)
             for i in range(0, len(nums)):
-                if nums[i] in num_list or nums[i] in self.cpu_not_use_num:
+                if nums[i] in num_list or nums[i] in self.npc_not_use_num:
                     continue
                 new_numbers.append(nums[i] + num_list[0] + num_list[1])
                 new_numbers.append(num_list[0] + num_list[1] + nums[i])
                 new_numbers.append(num_list[0] + nums[i] + num_list[1])
             for i in range(0, len(nums)):
-                if nums[i] in num_list or nums[i] in self.cpu_not_use_num:
+                if nums[i] in num_list or nums[i] in self.npc_not_use_num:
                     continue
                 new_numbers.append(nums[i] + num_list[1] + num_list[2])
                 new_numbers.append(num_list[1] + num_list[2] + nums[i])
                 new_numbers.append(num_list[1] + nums[i] + num_list[2])
             for i in range(0, len(nums)):
-                if nums[i] in num_list or nums[i] in self.cpu_not_use_num:
+                if nums[i] in num_list or nums[i] in self.npc_not_use_num:
                     continue
                 new_numbers.append(nums[i] + num_list[0] + num_list[2])
                 new_numbers.append(num_list[0] + num_list[2] + nums[i])
@@ -195,17 +195,17 @@ class Numeron():
             new_numbers = []
             num_list = list(input_number)
             for i in range(0, len(nums)):
-                if nums[i] in num_list or nums[i] in self.cpu_not_use_num:
+                if nums[i] in num_list or nums[i] in self.npc_not_use_num:
                     continue
                 new_numbers.append(num_list[0] + nums[i] + num_list[1])
                 new_numbers.append(num_list[0] + num_list[2] + nums[i])
             for i in range(0, len(nums)):
-                if nums[i] in num_list or nums[i] in self.cpu_not_use_num:
+                if nums[i] in num_list or nums[i] in self.npc_not_use_num:
                     continue
                 new_numbers.append(nums[i] + num_list[1] + num_list[0])
                 new_numbers.append(num_list[2] + num_list[1] + nums[i])
             for i in range(0, len(nums)):
-                if nums[i] in num_list or nums[i] in self.cpu_not_use_num:
+                if nums[i] in num_list or nums[i] in self.npc_not_use_num:
                     continue
                 new_numbers.append(nums[i] + num_list[0] + num_list[2])
                 new_numbers.append(num_list[1] + nums[i] + num_list[2])
@@ -238,10 +238,10 @@ class Numeron():
         if self.now_player == 1:
             self.user_history.append( [input_number, eat, bite] )
         else:
-            self.cpu_history.append( [input_number, eat, bite] )
+            self.npc_history.append( [input_number, eat, bite] )
 
     def history_check(self):
-        for his in self.cpu_history:
+        for his in self.npc_history:
             if his[0] in self.numbers:
                 self.numbers.remove(his[0])
 
@@ -249,7 +249,7 @@ if __name__ == '__main__':
     numeron = Numeron()
     print('===================================================')
     print(f'あなたの選んだ数字：{numeron.user_set_num}')
-    print(f'CPUの選んだ数字：{numeron.cpu_set_num}')
+    print(f'NPCの選んだ数字：{numeron.npc_set_num}')
     print('===================================================')
     while numeron.winner == '':
         numeron.input_num()
